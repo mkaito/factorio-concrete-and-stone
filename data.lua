@@ -74,6 +74,7 @@ data:extend({
 			"goes-to-quickbar"
 		},
 		icon = "__concrete-and-stone__/graphics/icons/concrete-wall.png",
+		icon_size = 32,
 		name = "concrete-wall",
 		order = "a[stone-wall]-b[concrete-wall]",
 		place_result = "concrete-wall",
