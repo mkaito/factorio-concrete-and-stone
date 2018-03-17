@@ -4,7 +4,8 @@ OUTPUT_NAME := $(PACKAGE_NAME)_$(VERSION_STRING)
 BUILD_DIR := .build
 OUTPUT_DIR := $(BUILD_DIR)/$(OUTPUT_NAME)
 CONFIG = ./$(OUTPUT_DIR)/config.lua
-MODS_DIRECTORY := ../.mods.15
+MODS_DIRECTORY := $(HOME)/.factorio/mods
+MOD_DIR := $(MODS_DIRECTORY)/$(OUTPUT_NAME)
 ##MOD_LINK := $(shell find $(MODS_DIRECTORY)/$(OUTPUT_NAME) -mindepth 1 -maxdepth 1 -type d)
 
 PKG_COPY := $(wildcard *.md) $(wildcard .*.md) $(wildcard graphics) $(wildcard locale) $(wildcard sounds)
@@ -20,13 +21,13 @@ SED_EXPRS += -e 's/{{VERSION}}/$(VERSION_STRING)/g'
 ##@luac -p $@
 ##@luacheck $@
 
-all: clean
+all: package
 
 release: clean check package tag
 
 optimized-release: clean check optimize-package
 
-package-copy: $(PKG_DIRS) $(PKG_FILES)
+package-copy: $(PKG_DIRS) $(PKG_FILES) $(OUT_FILES)
 	@mkdir -p $(OUTPUT_DIR)
 ifneq ($(PKG_COPY),)
 	@cp -r $(PKG_COPY) $(OUTPUT_DIR)
@@ -41,23 +42,12 @@ $(OUTPUT_DIR)/%: %
 	@mkdir -p $(@D)
 	@sed $(SED_EXPRS) $< > $@
 
-link2:
-	([ -d "$(MODS_DIRECTORY)/$(OUTPUT_NAME)" ]  && \
-	echo "Junction does not need updating.") || \
-	@[ -d "$(MODS_DIRECTORY)/$(PACKAGE_NAME)*" ] && \
-	echo "Updating Junction" && \
-	mv $(MODS_DIRCTORY)/$(PACKAGE_NAME)* $(MODS_DIRECTORY)/$(OUTPUT_NAME)
-
-link:
-	if test -d $(MODS_DIRECTORY)/$(PACKAGE_NAME)*; then \
-		if test -d $(MODS_DIRECTORY)/$(OUTPUT_NAME); then \
-			echo "Dont Update"; \
-		else \
-			echo "DO STUFF"; \
-		fi \
-	else \
-		echo "No Target to Link"; \
-	fi
+## Make actual folder, then symlink things inside
+# Factorio will refuse to load the mod if the actual mod folder is a symlink,
+# but appears to load symlinks inside mod folder just fine.
+symlink: package-copy cleandest
+	mkdir -p $(MOD_DIR)
+	ln -st $(MOD_DIR) $(PWD)/$(OUTPUT_DIR)/*
 
 tag:
 	git tag -f v$(VERSION_STRING)
@@ -85,15 +75,19 @@ check:
 	@luacheck . -q --codes
 
 package: package-copy $(OUT_FILES) nodebug
-	@cp -r stdlib $(BUILD_DIR)/$(OUTPUT_NAME)/stdlib
 	@cd $(BUILD_DIR) && zip -rq $(OUTPUT_NAME).zip $(OUTPUT_NAME)
 	@echo $(OUTPUT_NAME).zip ready
 
 optimize-package: package-copy $(OUT_FILES) nodebug optimize2
-	@cp -r stdlib $(BUILD_DIR)/$(OUTPUT_NAME)/stdlib
 	@cd $(BUILD_DIR) && zip -rq $(OUTPUT_NAME).zip $(OUTPUT_NAME)
 	@echo $(OUTPUT_NAME).zip ready
+
+install: optimize-package cleandest
+	cp $(BUILD_DIR)/$(OUTPUT_NAME).zip $(MOD_DIR).zip
 
 clean:
 	@rm -rf $(BUILD_DIR)
 	@echo Removing Build Directory.
+
+cleandest:
+	rm -rf $(MODS_DIRECTORY)/$(PACKAGE_NAME)*
