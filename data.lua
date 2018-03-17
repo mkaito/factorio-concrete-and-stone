@@ -74,20 +74,5 @@ data:extend({
     },
 })
 data.raw.item["stone-wall"].icon = "__concrete-and-stone-016__/graphics/icons/stone-wall.png"
-data.raw.recipe["concrete"].ingredients = {
-	{
-	  "stone-brick",
-	  5
-	},
-	{
-	  "iron-stick",
-	  2
-	},
-	{
-	  amount = 10,
-	  name = "water",
-	  type = "fluid"
-	}
-}
 
 table.insert(data.raw["technology"]["concrete"].effects, {type = "unlock-recipe", recipe = "concrete-wall"})
