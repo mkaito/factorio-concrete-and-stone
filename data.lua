@@ -11,8 +11,10 @@ for _, picture in pairs(data.raw.wall["stone-wall"].pictures) do
 		end
 	else
 		for _, variations in pairs(picture) do
-			for _, layer in pairs(variations.layers) do
-				layer.filename = replace(layer.filename, "__base__", "__concrete-and-stone__")
+			if variations.layers then
+				for _, layer in pairs(variations.layers) do
+					layer.filename = replace(layer.filename, "__base__", "__concrete-and-stone__")
+				end
 			end
 		end
 	end
@@ -41,8 +43,10 @@ for _, picture in pairs(concrete.pictures) do
 		end
 	else
 		for _, variations in pairs(picture) do
-			for _, layer in pairs(variations.layers) do
-				layer.filename = replace(layer.filename, "stone-wall", "concrete-wall")
+			if variations.layers then
+				for _, layer in pairs(variations.layers) do
+					layer.filename = replace(layer.filename, "stone-wall", "concrete-wall")
+				end
 			end
 		end
 	end
