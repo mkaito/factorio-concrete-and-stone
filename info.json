@@ -1,6 +1,6 @@
 {
 	"name": "concrete-and-stone-016",
-	"version": "0.2.4",
+	"version": "0.2.5",
 	"title": "Concrete and Stone 0.16",
 	"author": "Earendel, mkaito",
 	"dependencies": ["base >= 0.14.0"],
