@@ -20,16 +20,6 @@ for _, picture in pairs(data.raw.wall["stone-wall"].pictures) do
 	end
 end
 
-for _, picture in pairs(data.raw.tile["stone-path"].variants) do
-	if picture.count then
-		picture.picture = replace(picture.picture, "__base__", "__concrete-and-stone__")
-	else
-		for _, variations in pairs(picture) do
-			variations.picture = replace(variations.picture, "__base__", "__concrete-and-stone__")
-		end
-	end
-end
-
 local concrete = table.deepcopy(data.raw.wall["stone-wall"])
 concrete.name = "concrete-wall"
 concrete.minable = {
