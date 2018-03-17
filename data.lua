@@ -7,13 +7,13 @@ end
 for _, picture in pairs(data.raw.wall["stone-wall"].pictures) do
 	if picture.layers then
 		for _, layer in pairs(picture.layers) do
-			layer.filename = replace(layer.filename, "__base__", "__concrete-and-stone__")
+			layer.filename = replace(layer.filename, "__base__", "__concrete-and-stone-016__")
 		end
 	else
 		for _, variations in pairs(picture) do
 			if variations.layers then
 				for _, layer in pairs(variations.layers) do
-					layer.filename = replace(layer.filename, "__base__", "__concrete-and-stone__")
+					layer.filename = replace(layer.filename, "__base__", "__concrete-and-stone-016__")
 				end
 			end
 		end
@@ -63,7 +63,7 @@ data:extend({
 		flags = {
 			"goes-to-quickbar"
 		},
-		icon = "__concrete-and-stone__/graphics/icons/concrete-wall.png",
+		icon = "__concrete-and-stone-016__/graphics/icons/concrete-wall.png",
 		icon_size = 32,
 		name = "concrete-wall",
 		order = "a[stone-wall]-b[concrete-wall]",
@@ -73,7 +73,7 @@ data:extend({
 		type = "item"
     },
 })
-data.raw.item["stone-wall"].icon = "__concrete-and-stone__/graphics/icons/stone-wall.png"
+data.raw.item["stone-wall"].icon = "__concrete-and-stone-016__/graphics/icons/stone-wall.png"
 data.raw.recipe["concrete"].ingredients = {
 	{
 	  "stone-brick",
