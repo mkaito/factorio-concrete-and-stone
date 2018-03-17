@@ -1,8 +1,8 @@
 {
 	"name": "concrete-and-stone",
-	"version": "0.2.2",
+	"version": "0.2.3",
 	"title": "Concrete and Stone",
-	"author": "Earendel",
+	"author": "Earendel, mkaito",
 	"dependencies": ["base >= 0.14.0"],
 	"description": "Stone walls retextured to look like stone. New concrete walls are twice as strong.",
 	"factorio_version": "0.16"
